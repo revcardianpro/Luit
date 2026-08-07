@@ -3,6 +3,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { navLinks } from "@/lib/navigation";
+import { signOut } from "@/lib/supabase/actions";
+
+interface MobileMenuProps {
+  /** Passed down from Navbar (a Server Component that already knows the
+   * signed-in user) since this Client Component can't query Supabase
+   * itself — it only has whatever props it's given. */
+  userEmail: string | null;
+}
 
 /**
  * Hamburger menu shown only below the `sm` breakpoint (the desktop nav
@@ -13,7 +21,7 @@ import { navLinks } from "@/lib/navigation";
  * component's JS to the client, unlike the Server Components elsewhere
  * on the page.
  */
-export function MobileMenu() {
+export function MobileMenu({ userEmail }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -65,9 +73,20 @@ export function MobileMenu() {
                 {link.label}
               </a>
             ))}
-            <Button size="sm" disabled>
-              Sign In
-            </Button>
+            {userEmail ? (
+              <>
+                <span className="text-sm text-foreground/60">{userEmail}</span>
+                <form action={signOut}>
+                  <Button type="submit" variant="outline" size="sm">
+                    Sign Out
+                  </Button>
+                </form>
+              </>
+            ) : (
+              <Button href="/login" size="sm">
+                Sign In
+              </Button>
+            )}
           </div>
         </div>
       )}

@@ -5,11 +5,15 @@ interface ButtonProps {
   children: React.ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
-  /** Omit `href` (or pass `disabled`) for a not-yet-functional CTA — it
-   * renders as an inert, visually "disabled" button instead of a link
-   * that goes nowhere. Used for things like "Sign In" before Phase 5
-   * (Authentication) exists. */
+  /** Renders as a real link. */
   href?: string;
+  /** Renders as a real <button> — use inside a <form action={...}> for
+   * Server Actions (e.g. a Sign Out button), or "button" with onClick
+   * in a Client Component. */
+  type?: "button" | "submit";
+  /** Omit both `href` and `type` (or pass `disabled`) for a
+   * not-yet-functional CTA — it renders as an inert, visually
+   * "disabled" element instead of a link/button that does nothing. */
   disabled?: boolean;
 }
 
@@ -24,13 +28,14 @@ const sizeStyles: Record<ButtonSize, string> = {
 };
 
 /**
- * Shared call-to-action button. Every "primary action" across the site
- * (hero, closing CTA, navbar) renders through this one component, so
- * changing the button style once updates it everywhere instead of
- * drifting out of sync across pages.
+ * Shared call-to-action button/link. Every "action" across the site —
+ * links (hero, navbar), form submissions (login, sign out), and
+ * not-yet-functional placeholders — renders through this one component,
+ * so its visual style only has to be changed in one place.
  */
 export function Button({
   href,
+  type,
   variant = "primary",
   size = "md",
   disabled = false,
@@ -39,6 +44,14 @@ export function Button({
   const className = `inline-flex items-center justify-center rounded-full font-medium transition-colors ${variantStyles[variant]} ${sizeStyles[size]} ${
     disabled ? "cursor-not-allowed opacity-50" : ""
   }`;
+
+  if (type) {
+    return (
+      <button type={type} disabled={disabled} className={className}>
+        {children}
+      </button>
+    );
+  }
 
   if (disabled || !href) {
     return (
