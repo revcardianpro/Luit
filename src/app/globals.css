@@ -60,3 +60,28 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
 }
+
+/* Bold gradient backdrop for the Hero section (Phase 8 design revision:
+   bolder, more colorful, more immersive — see the project memory on
+   this decision). Built with color-mix() referencing the brand color
+   *tokens* above rather than hardcoded hex, so it automatically picks
+   up the correct light/dark variant of each color instead of needing
+   its own separate light/dark definitions. */
+.hero-glow-bg {
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      color-mix(in oklab, var(--color-brand-blue) 35%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 80% 25%,
+      color-mix(in oklab, var(--color-brand-gold) 30%, transparent),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 50% 100%,
+      color-mix(in oklab, var(--color-brand-green) 25%, transparent),
+      transparent 60%
+    );
+}
