@@ -9,7 +9,7 @@ interface MobileMenuProps {
   /** Passed down from Navbar (a Server Component that already knows the
    * signed-in user) since this Client Component can't query Supabase
    * itself — it only has whatever props it's given. */
-  userEmail: string | null;
+  isSignedIn: boolean;
 }
 
 /**
@@ -21,7 +21,7 @@ interface MobileMenuProps {
  * component's JS to the client, unlike the Server Components elsewhere
  * on the page.
  */
-export function MobileMenu({ userEmail }: MobileMenuProps) {
+export function MobileMenu({ isSignedIn }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -73,9 +73,15 @@ export function MobileMenu({ userEmail }: MobileMenuProps) {
                 {link.label}
               </a>
             ))}
-            {userEmail ? (
+            {isSignedIn ? (
               <>
-                <span className="text-sm text-foreground/60">{userEmail}</span>
+                <a
+                  href="/account"
+                  onClick={() => setOpen(false)}
+                  className="text-sm font-medium text-foreground/70"
+                >
+                  Account
+                </a>
                 <form action={signOut}>
                   <Button type="submit" variant="outline" size="sm">
                     Sign Out

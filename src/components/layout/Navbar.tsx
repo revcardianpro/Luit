@@ -41,7 +41,12 @@ export async function Navbar() {
           ))}
           {user ? (
             <div className="flex items-center gap-3">
-              <span className="text-sm text-foreground/60">{user.email}</span>
+              <Link
+                href="/account"
+                className="text-sm font-medium text-foreground/70 hover:text-foreground"
+              >
+                Account
+              </Link>
               <form action={signOut}>
                 <Button type="submit" variant="outline" size="sm">
                   Sign Out
@@ -55,7 +60,7 @@ export async function Navbar() {
           )}
         </nav>
 
-        <MobileMenu userEmail={user?.email ?? null} />
+        <MobileMenu isSignedIn={!!user} />
       </div>
     </header>
   );
