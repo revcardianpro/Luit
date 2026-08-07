@@ -9,7 +9,7 @@ export default async function SignupPage(props: PageProps<"/signup">) {
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-6 py-16">
       <div className="w-full max-w-sm">
-        <h1 className="text-2xl font-semibold tracking-tight">Create your account</h1>
+        <h1 className="font-serif text-2xl font-semibold tracking-tight">Create your account</h1>
         <p className="mt-2 text-sm text-foreground/60">Join LUIT.</p>
 
         {error && (

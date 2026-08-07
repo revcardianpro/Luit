@@ -20,7 +20,7 @@ export default async function AccountPage(props: PageProps<"/account">) {
 
   return (
     <main className="mx-auto flex w-full max-w-lg flex-1 flex-col px-6 py-16">
-      <h1 className="text-2xl font-semibold tracking-tight">Your account</h1>
+      <h1 className="font-serif text-2xl font-semibold tracking-tight">Your account</h1>
       <p className="mt-2 text-sm text-foreground/60">{user.email}</p>
 
       {success && (

@@ -9,7 +9,7 @@ export default async function LoginPage(props: PageProps<"/login">) {
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-6 py-16">
       <div className="w-full max-w-sm">
-        <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
+        <h1 className="font-serif text-2xl font-semibold tracking-tight">Welcome back</h1>
         <p className="mt-2 text-sm text-foreground/60">
           Sign in to your LUIT account.
         </p>

@@ -14,7 +14,7 @@ export function DestinationCard({ destination }: { destination: Destination }) {
       <span className={`h-2 w-10 rounded-full ${accentBgClass[accent]}`} />
       <div>
         <p className="text-xs font-medium uppercase tracking-wide text-foreground/50">{label}</p>
-        <h3 className="mt-1 text-xl font-semibold">{destination.name}</h3>
+        <h3 className="mt-1 font-serif text-xl font-semibold">{destination.name}</h3>
       </div>
       <p className="text-foreground/70">{destination.short_description}</p>
     </Link>

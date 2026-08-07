@@ -10,7 +10,9 @@ export default async function ExplorePage() {
   return (
     <main className="flex flex-1 flex-col">
       <section className="flex flex-col items-center gap-4 px-6 py-20 text-center">
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">Explore Assam</h1>
+        <h1 className="font-serif text-4xl font-semibold tracking-tight sm:text-5xl">
+          Explore Assam
+        </h1>
         <p className="max-w-xl text-lg text-foreground/70">
           Places worth discovering across the state — from ancient temples to national parks.
         </p>

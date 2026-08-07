@@ -31,7 +31,7 @@ export default async function DestinationPage(props: PageProps<"/explore/[slug]"
         <p className="text-xs font-medium uppercase tracking-wide text-foreground/50">{label}</p>
       </div>
 
-      <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
+      <h1 className="mt-2 font-serif text-3xl font-semibold tracking-tight sm:text-4xl">
         {destination.name}
       </h1>
       <p className="mt-1 text-sm text-foreground/60">{destination.district}</p>

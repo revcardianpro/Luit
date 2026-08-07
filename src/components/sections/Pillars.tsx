@@ -42,7 +42,7 @@ function PillarCard({ title, description, accent }: Pillar) {
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-foreground/10 p-8">
       <span className={`h-2 w-10 rounded-full ${accentBgClass[accent]}`} />
-      <h3 className="text-xl font-semibold">{title}</h3>
+      <h3 className="font-serif text-xl font-semibold">{title}</h3>
       <p className="text-foreground/70">{description}</p>
     </div>
   );
