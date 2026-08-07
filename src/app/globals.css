@@ -1,9 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  /* Neutral surface + text — warm off-white rather than pure white,
-     closer to how Airbnb/Notion keep "minimal" from feeling sterile. */
-  --background: #faf9f7;
+  /* Neutral surface + text. Pushed warmer/more saturated than a plain
+     off-white — closer to true cream/parchment (Phase 8 design
+     revision, following the bakinatajna.com reference: warm paper tone
+     rather than a neutral gray-white). */
+  --background: #f5ecd9;
   --foreground: #1c1917;
 
   /* LUIT brand palette. Each color maps to something concrete in the
@@ -39,6 +41,10 @@
   --color-primary-foreground: var(--primary-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  /* Display serif (headings) and handwritten accent (used sparingly),
+     available as the `font-serif` / `font-script` utilities. */
+  --font-serif: var(--font-fraunces);
+  --font-script: var(--font-caveat);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -61,27 +67,26 @@ body {
   font-family: var(--font-sans);
 }
 
-/* Bold gradient backdrop for the Hero section (Phase 8 design revision:
-   bolder, more colorful, more immersive — see the project memory on
-   this decision). Built with color-mix() referencing the brand color
-   *tokens* above rather than hardcoded hex, so it automatically picks
-   up the correct light/dark variant of each color instead of needing
-   its own separate light/dark definitions. */
-.hero-glow-bg {
-  background:
-    radial-gradient(
-      circle at 20% 20%,
-      color-mix(in oklab, var(--color-brand-blue) 35%, transparent),
-      transparent 55%
-    ),
-    radial-gradient(
-      circle at 80% 25%,
-      color-mix(in oklab, var(--color-brand-gold) 30%, transparent),
-      transparent 55%
-    ),
-    radial-gradient(
-      circle at 50% 100%,
-      color-mix(in oklab, var(--color-brand-green) 25%, transparent),
-      transparent 60%
-    );
+/* Continuous horizontal scroll for Marquee.tsx. The component renders
+   its content twice back-to-back and this animates exactly -50% (one
+   full copy's width), so the loop point is invisible. */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee-scroll 24s linear infinite;
+}
+
+/* This animation is plain CSS, not Motion, so MotionProvider's
+   reduced-motion handling doesn't cover it — handled separately here. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
 }
