@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getSiteUrl } from "@/lib/site-url";
 
 export async function signup(formData: FormData) {
   const supabase = await createClient();
@@ -16,7 +17,7 @@ export async function signup(formData: FormData) {
       // Where Supabase sends the browser after the user clicks the
       // confirmation link in their email. Our /auth/callback route
       // exchanges the code it receives there for a real session.
-      emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+      emailRedirectTo: `${getSiteUrl()}/auth/callback`,
     },
   });
 
