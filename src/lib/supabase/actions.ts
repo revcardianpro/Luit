@@ -11,6 +11,12 @@ import { createClient } from "@/lib/supabase/server";
  */
 export async function signOut() {
   const supabase = await createClient();
-  await supabase.auth.signOut();
+  try {
+    await supabase.auth.signOut();
+  } catch {
+    // A double-submit (e.g. an impatient double-click) can race a
+    // session that's already being cleared. Either way the user should
+    // land back on a logged-out homepage, not see a raw error.
+  }
   redirect("/");
 }

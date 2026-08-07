@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { isSafeRedirectPath } from "@/lib/site-url";
 
 /**
  * Where Supabase sends the browser after a user clicks the confirmation
@@ -10,7 +11,11 @@ import { createClient } from "@/lib/supabase/server";
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/";
+  const rawNext = searchParams.get("next");
+  // Validated even though we don't set `next` ourselves today — this
+  // route reads it straight from the URL, so a crafted link could
+  // otherwise redirect a just-authenticated user to an attacker's site.
+  const next = rawNext && isSafeRedirectPath(rawNext) ? rawNext : "/";
 
   if (code) {
     const supabase = await createClient();

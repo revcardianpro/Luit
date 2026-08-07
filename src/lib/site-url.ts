@@ -21,3 +21,15 @@ export function getSiteUrl() {
   }
   return "http://localhost:3000";
 }
+
+/**
+ * True only for same-origin relative paths like "/account". Used to
+ * validate a `next` redirect target that came from a URL query param
+ * before using it, so a crafted link can't send a logged-in user off to
+ * an attacker's site. Rejects absolute URLs ("https://evil.com") and
+ * protocol-relative URLs ("//evil.com" — browsers treat the double
+ * slash as "same protocol, different host").
+ */
+export function isSafeRedirectPath(path: string): boolean {
+  return path.startsWith("/") && !path.startsWith("//");
+}

@@ -2,14 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
+import { redirectWithError } from "@/lib/redirect-with-error";
 
 export async function updateProfile(formData: FormData) {
-  const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect("/login");
@@ -19,27 +16,42 @@ export async function updateProfile(formData: FormData) {
   const bio = formData.get("bio") as string;
   const avatarFile = formData.get("avatar") as File | null;
 
+  const supabase = await createClient();
+
   let avatarUrl: string | undefined;
 
   // Only touch storage if the user actually picked a file — an empty
   // file input still shows up in FormData, but with size 0.
   if (avatarFile && avatarFile.size > 0) {
-    const fileExt = avatarFile.name.split(".").pop();
-    const filePath = `${user.id}/avatar.${fileExt}`;
+    // `accept="image/*"` on the file input is only a client-side hint —
+    // the server has to verify the actual upload is image data itself,
+    // since the avatars bucket is public and anyone could otherwise
+    // upload an arbitrary file with a faked extension.
+    if (!avatarFile.type.startsWith("image/")) {
+      redirectWithError("/account", "Avatar must be an image file.");
+    }
+
+    // Fixed path (no extension in the key) so re-uploading always
+    // overwrites the same object — avoids leaving old avatar.jpg files
+    // orphaned in storage every time someone uploads a different image
+    // format. The real content type is still stored via `contentType`.
+    const filePath = `${user.id}/avatar`;
 
     const { error: uploadError } = await supabase.storage
       .from("avatars")
-      .upload(filePath, avatarFile, { upsert: true });
+      .upload(filePath, avatarFile, { upsert: true, contentType: avatarFile.type });
 
     if (uploadError) {
-      redirect(`/account?error=${encodeURIComponent(uploadError.message)}`);
+      redirectWithError("/account", uploadError.message);
     }
 
     const {
       data: { publicUrl },
     } = supabase.storage.from("avatars").getPublicUrl(filePath);
 
-    avatarUrl = publicUrl;
+    // Cache-bust: since the path never changes, browsers/CDNs would
+    // otherwise keep showing the previous image against this same URL.
+    avatarUrl = `${publicUrl}?v=${Date.now()}`;
   }
 
   const { error } = await supabase
@@ -52,7 +64,7 @@ export async function updateProfile(formData: FormData) {
     .eq("id", user.id);
 
   if (error) {
-    redirect(`/account?error=${encodeURIComponent(error.message)}`);
+    redirectWithError("/account", error.message);
   }
 
   // The account page reads the profile server-side, so without this the

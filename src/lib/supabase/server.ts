@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
@@ -37,3 +38,22 @@ export async function createClient() {
     },
   );
 }
+
+/**
+ * Gets the current signed-in user, memoized per request via React's
+ * `cache()`. `auth.getUser()` isn't a local check — it's a real network
+ * round-trip that re-validates the token against Supabase's Auth
+ * server. Without this, the Navbar (rendered in the root layout on
+ * every page) and that page's own content would each pay for a
+ * separate round-trip for the exact same request. `cache()` makes the
+ * second call reuse the first call's in-flight/resolved result instead
+ * of firing again — it only dedupes within a single render, not across
+ * separate requests (e.g. a page load vs. a later Server Action call).
+ */
+export const getCurrentUser = cache(async () => {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  return user;
+});

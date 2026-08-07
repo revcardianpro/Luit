@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { navLinks } from "@/lib/navigation";
-import { createClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@/lib/supabase/server";
 import { signOut } from "@/lib/supabase/actions";
 
 /**
@@ -15,12 +15,13 @@ import { signOut } from "@/lib/supabase/actions";
  * the server to find out whether anyone is signed in, and renders
  * "Sign In" or "Sign Out" accordingly. No client-side fetch or loading
  * flicker needed, since this runs before any HTML reaches the browser.
+ * Uses getCurrentUser() (not the raw Supabase client) so that on pages
+ * which also check the user themselves — like /account — the check
+ * only actually hits Supabase's Auth server once per request, not
+ * twice.
  */
 export async function Navbar() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur">

@@ -12,5 +12,5 @@ export async function proxy(request: NextRequest) {
 export const config = {
   // Run on every request except static assets/images — those don't
   // carry session state and refreshing on them would be wasted work.
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon\\.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
 };

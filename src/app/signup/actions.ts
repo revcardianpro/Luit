@@ -3,13 +3,17 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getSiteUrl } from "@/lib/site-url";
+import { redirectWithError } from "@/lib/redirect-with-error";
 
 export async function signup(formData: FormData) {
+  const email = formData.get("email");
+  const password = formData.get("password");
+
+  if (typeof email !== "string" || typeof password !== "string" || !email || !password) {
+    redirectWithError("/signup", "Email and password are required.");
+  }
+
   const supabase = await createClient();
-
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-
   const { error } = await supabase.auth.signUp({
     email,
     password,
@@ -22,7 +26,7 @@ export async function signup(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/signup?error=${encodeURIComponent(error.message)}`);
+    redirectWithError("/signup", error.message);
   }
 
   redirect("/signup/check-email");
