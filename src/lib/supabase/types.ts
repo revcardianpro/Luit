@@ -143,3 +143,45 @@ export interface GovernmentOpportunity {
   created_at: string;
   updated_at: string;
 }
+
+/**
+ * Shape of a row in the `creator_posts` table (see
+ * supabase/migrations/0008_creator_posts.sql). User-generated, like
+ * Product/Job.
+ */
+export interface CreatorPost {
+  id: string;
+  creator_id: string;
+  title: string;
+  description: string;
+  category: string;
+  image_path: string | null;
+  external_link: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * Post with its creator's public profile fields joined in, plus
+ * aggregate like/comment counts. Used for the listing grid, where
+ * computing "has *this viewer* liked each post" would mean an N+1
+ * query across every card -- that per-viewer check only happens on the
+ * single-post detail page instead (src/app/community/[id]/page.tsx),
+ * where it's just one extra query for one post.
+ */
+export interface CreatorPostWithMeta extends CreatorPost {
+  profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
+  like_count: number;
+  comment_count: number;
+}
+
+/** Shape of a row in `creator_post_comments`, with the commenter's
+ * public profile fields joined in. */
+export interface CreatorPostComment {
+  id: string;
+  post_id: string;
+  author_id: string;
+  body: string;
+  created_at: string;
+  profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
+}

@@ -19,7 +19,12 @@ interface BaseProps {
 // silent runtime surprise.
 type ButtonProps =
   | (BaseProps & { href: string; external?: boolean; type?: never })
-  | (BaseProps & { type: "button" | "submit"; href?: never; external?: never })
+  | (BaseProps & {
+      type: "button" | "submit";
+      href?: never;
+      external?: never;
+      onClick?: () => void;
+    })
   | (BaseProps & { href?: never; type?: never; external?: never });
 
 const variantStyles: Record<ButtonVariant, string> = {
@@ -42,7 +47,8 @@ const sizeStyles: Record<ButtonSize, string> = {
  *   the site, e.g. out to a Learning Hub resource — opens in a new tab
  *   so the visitor doesn't lose their place on LUIT).
  * - Pass `type="button" | "submit"` for a real <button> (e.g. inside a
- *   Server Action <form>).
+ *   Server Action <form>, or with `onClick` for client-side behavior
+ *   like the community post's Share button).
  * - Pass neither (optionally with `disabled`) for a not-yet-functional
  *   placeholder — it renders as an inert, visually "disabled" element.
  */
@@ -54,14 +60,16 @@ export function Button({
   size = "md",
   disabled = false,
   children,
+  ...rest
 }: ButtonProps) {
   const className = `inline-flex items-center justify-center rounded-full font-medium transition-colors ${variantStyles[variant]} ${sizeStyles[size]} ${
     disabled ? "cursor-not-allowed opacity-50" : ""
   }`;
 
   if (type) {
+    const onClick = "onClick" in rest ? rest.onClick : undefined;
     return (
-      <button type={type} disabled={disabled} className={className}>
+      <button type={type} disabled={disabled} onClick={onClick} className={className}>
         {children}
       </button>
     );
