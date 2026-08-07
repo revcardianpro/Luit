@@ -18,9 +18,9 @@ interface BaseProps {
 // `href?: never`), so passing both is a compile error instead of a
 // silent runtime surprise.
 type ButtonProps =
-  | (BaseProps & { href: string; type?: never })
-  | (BaseProps & { type: "button" | "submit"; href?: never })
-  | (BaseProps & { href?: never; type?: never });
+  | (BaseProps & { href: string; external?: boolean; type?: never })
+  | (BaseProps & { type: "button" | "submit"; href?: never; external?: never })
+  | (BaseProps & { href?: never; type?: never; external?: never });
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary: "bg-primary text-primary-foreground hover:opacity-90",
@@ -38,7 +38,9 @@ const sizeStyles: Record<ButtonSize, string> = {
  * not-yet-functional placeholders — renders through this one component,
  * so its visual style only has to be changed in one place.
  *
- * - Pass `href` for a real link.
+ * - Pass `href` for a real link (add `external` for a link that leaves
+ *   the site, e.g. out to a Learning Hub resource — opens in a new tab
+ *   so the visitor doesn't lose their place on LUIT).
  * - Pass `type="button" | "submit"` for a real <button> (e.g. inside a
  *   Server Action <form>).
  * - Pass neither (optionally with `disabled`) for a not-yet-functional
@@ -47,6 +49,7 @@ const sizeStyles: Record<ButtonSize, string> = {
 export function Button({
   href,
   type,
+  external = false,
   variant = "primary",
   size = "md",
   disabled = false,
@@ -73,7 +76,11 @@ export function Button({
   }
 
   return (
-    <Link href={href} className={className}>
+    <Link
+      href={href}
+      className={className}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+    >
       {children}
     </Link>
   );

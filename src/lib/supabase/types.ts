@@ -80,3 +80,21 @@ export interface Product {
 export interface ProductWithSeller extends Product {
   profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
 }
+
+/**
+ * Shape of a row in the `learning_resources` table (see
+ * supabase/migrations/0005_learning_resources.sql). Curated external
+ * resources -- `url` points off-site to the actual provider.
+ */
+export interface LearningResource {
+  id: string;
+  slug: string;
+  title: string;
+  provider: string;
+  category: string;
+  short_description: string;
+  description: string;
+  url: string;
+  created_at: string;
+  updated_at: string;
+}
