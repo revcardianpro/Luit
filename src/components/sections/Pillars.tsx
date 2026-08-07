@@ -1,7 +1,9 @@
+import { accentBgClass, type BrandAccent } from "@/lib/brand-accent";
+
 interface Pillar {
   title: string;
   description: string;
-  accent: "brand-blue" | "brand-green" | "brand-red" | "brand-gold";
+  accent: BrandAccent;
 }
 
 // The four pillars from the LUIT brief, each paired with the brand color
@@ -36,17 +38,10 @@ const pillars: Pillar[] = [
   },
 ];
 
-const accentClasses: Record<Pillar["accent"], string> = {
-  "brand-blue": "bg-brand-blue",
-  "brand-green": "bg-brand-green",
-  "brand-red": "bg-brand-red",
-  "brand-gold": "bg-brand-gold",
-};
-
 function PillarCard({ title, description, accent }: Pillar) {
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-foreground/10 p-8">
-      <span className={`h-2 w-10 rounded-full ${accentClasses[accent]}`} />
+      <span className={`h-2 w-10 rounded-full ${accentBgClass[accent]}`} />
       <h3 className="text-xl font-semibold">{title}</h3>
       <p className="text-foreground/70">{description}</p>
     </div>

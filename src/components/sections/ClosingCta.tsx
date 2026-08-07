@@ -6,7 +6,7 @@ export function ClosingCta() {
       <h2 className="max-w-xl text-3xl font-semibold tracking-tight sm:text-4xl">
         Be part of Assam&rsquo;s digital future.
       </h2>
-      <Button href="#pillars">Explore Assam</Button>
+      <Button href="/explore">Explore Assam</Button>
     </section>
   );
 }

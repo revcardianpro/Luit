@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { navLinks } from "@/lib/navigation";
 import { signOut } from "@/lib/supabase/actions";
@@ -64,24 +65,24 @@ export function MobileMenu({ isSignedIn }: MobileMenuProps) {
         <div className="absolute inset-x-0 top-full border-b border-foreground/10 bg-background px-6 py-4">
           <div className="flex flex-col gap-4">
             {navLinks.map((link) => (
-              <a
+              <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
                 className="text-sm font-medium text-foreground/70"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
             {isSignedIn ? (
               <>
-                <a
+                <Link
                   href="/account"
                   onClick={() => setOpen(false)}
                   className="text-sm font-medium text-foreground/70"
                 >
                   Account
-                </a>
+                </Link>
                 <form action={signOut}>
                   <Button type="submit" variant="outline" size="sm">
                     Sign Out

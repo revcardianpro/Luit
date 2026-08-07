@@ -32,13 +32,13 @@ export async function Navbar() {
 
         <nav className="hidden items-center gap-6 sm:flex">
           {navLinks.map((link) => (
-            <a
+            <Link
               key={link.href}
               href={link.href}
               className="text-sm font-medium text-foreground/70 hover:text-foreground"
             >
               {link.label}
-            </a>
+            </Link>
           ))}
           {user ? (
             <div className="flex items-center gap-3">

@@ -14,3 +14,19 @@ export interface Profile {
   created_at: string;
   updated_at: string;
 }
+
+/**
+ * Shape of a row in the `destinations` table (see
+ * supabase/migrations/0002_destinations.sql).
+ */
+export interface Destination {
+  id: string;
+  slug: string;
+  name: string;
+  category: string;
+  district: string;
+  short_description: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+}

@@ -14,7 +14,7 @@ export function Hero() {
         Assam&rsquo;s people embrace the future without losing their
         identity, and inviting the world to discover it.
       </p>
-      <Button href="#pillars">Explore Assam</Button>
+      <Button href="/explore">Explore Assam</Button>
     </section>
   );
 }

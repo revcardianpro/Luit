@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 type ButtonVariant = "primary" | "outline";
 type ButtonSize = "sm" | "md";
 
@@ -71,8 +73,8 @@ export function Button({
   }
 
   return (
-    <a href={href} className={className}>
+    <Link href={href} className={className}>
       {children}
-    </a>
+    </Link>
   );
 }
