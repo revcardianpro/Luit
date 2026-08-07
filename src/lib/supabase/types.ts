@@ -98,3 +98,28 @@ export interface LearningResource {
   created_at: string;
   updated_at: string;
 }
+
+/**
+ * Shape of a row in the `jobs` table (see
+ * supabase/migrations/0006_jobs.sql). User-generated, like Product.
+ */
+export interface Job {
+  id: string;
+  poster_id: string;
+  title: string;
+  company: string;
+  description: string;
+  job_type: string;
+  location: string | null;
+  salary_range: string | null;
+  apply_url: string | null;
+  apply_email: string | null;
+  expires_at: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Job with its poster's public profile fields joined in. */
+export interface JobWithPoster extends Job {
+  profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
+}
