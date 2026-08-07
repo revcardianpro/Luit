@@ -55,7 +55,7 @@ function PillarCard({ title, description, accent }: Pillar) {
 
 export function Pillars() {
   return (
-    <section id="pillars" className="mx-auto max-w-5xl px-6 py-20">
+    <section id="pillars" className="mx-auto max-w-5xl scroll-mt-24 px-6 py-20">
       <div className="grid gap-6 sm:grid-cols-2">
         {pillars.map((pillar) => (
           <PillarCard key={pillar.title} {...pillar} />
