@@ -10,6 +10,7 @@ export interface NavLink {
 export const navLinks: NavLink[] = [
   { label: "Explore", href: "/explore" },
   { label: "Pride", href: "/pride" },
+  { label: "Marketplace", href: "/marketplace" },
   // Absolute path + hash, not just "#pillars" -- that section only
   // exists on the homepage, so a bare hash would try to scroll
   // *whatever page you're currently on* instead of navigating back.

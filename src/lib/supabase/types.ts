@@ -53,3 +53,30 @@ export interface NotablePerson {
   created_at: string;
   updated_at: string;
 }
+
+/**
+ * Shape of a row in the `products` table (see
+ * supabase/migrations/0004_products.sql). Unlike Destination/
+ * NotablePerson, these are user-generated, not seeded by us.
+ */
+export interface Product {
+  id: string;
+  seller_id: string;
+  title: string;
+  description: string;
+  price: number;
+  category: string;
+  district: string | null;
+  image_path: string | null;
+  contact_email: string | null;
+  contact_phone: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Product with its seller's public profile fields joined in — what
+ * listing/detail pages actually query, via Supabase's nested select
+ * (`*, profiles(full_name, avatar_url)`). */
+export interface ProductWithSeller extends Product {
+  profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
+}

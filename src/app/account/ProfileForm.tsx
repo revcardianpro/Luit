@@ -2,9 +2,9 @@ import { Avatar } from "@/components/ui/Avatar";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
+import { ImageFileInput } from "@/components/ui/ImageFileInput";
 import type { Profile } from "@/lib/supabase/types";
 import { updateProfile } from "./actions";
-import { AvatarFileInput } from "./AvatarFileInput";
 
 interface ProfileFormProps {
   profile: Profile | null;
@@ -15,7 +15,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
     <form action={updateProfile} className="mt-8 flex flex-col gap-6">
       <div className="flex items-center gap-4">
         <Avatar src={profile?.avatar_url} name={profile?.full_name} size={64} />
-        <AvatarFileInput />
+        <ImageFileInput name="avatar" label="Avatar" />
       </div>
 
       <Input

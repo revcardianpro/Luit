@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 interface AvatarProps {
   src?: string | null;
   name?: string | null;
@@ -23,14 +25,12 @@ export function Avatar({ src, name, size = 64 }: AvatarProps) {
   const style = { width: size, height: size };
 
   if (src) {
-    // Avatar URLs come from Supabase Storage, an external host not yet
-    // configured in next.config.ts for the Image component's optimizer.
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
+      <Image
         src={src}
         alt={name ?? "User avatar"}
-        style={style}
+        width={size}
+        height={size}
         className="rounded-full object-cover"
       />
     );
