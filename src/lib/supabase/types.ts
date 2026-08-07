@@ -123,3 +123,23 @@ export interface Job {
 export interface JobWithPoster extends Job {
   profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
 }
+
+/**
+ * Shape of a row in the `government_opportunities` table (see
+ * supabase/migrations/0007_government_opportunities.sql). Curated, but
+ * unlike Destination/NotablePerson/LearningResource, genuinely
+ * time-sensitive -- info_verified_on drives an "as of" note in the UI
+ * rather than presenting dates as permanently accurate.
+ */
+export interface GovernmentOpportunity {
+  id: string;
+  title: string;
+  organization: string;
+  listing_type: string;
+  key_dates: string;
+  description: string;
+  source_url: string;
+  info_verified_on: string;
+  created_at: string;
+  updated_at: string;
+}
