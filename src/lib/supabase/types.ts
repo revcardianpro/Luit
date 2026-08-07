@@ -30,3 +30,26 @@ export interface Destination {
   created_at: string;
   updated_at: string;
 }
+
+/**
+ * Shape of a row in the `notable_people` table (see
+ * supabase/migrations/0003_notable_people.sql). The photo_* fields
+ * exist because these photos are sourced under licenses (CC BY-SA,
+ * GODL-India) that legally require visible attribution, unlike the
+ * Explore Assam destination photos.
+ */
+export interface NotablePerson {
+  id: string;
+  slug: string;
+  name: string;
+  field: string;
+  lifespan: string;
+  short_description: string;
+  description: string;
+  photo_path: string;
+  photo_credit: string;
+  photo_license: string;
+  photo_license_url: string | null;
+  created_at: string;
+  updated_at: string;
+}
