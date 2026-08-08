@@ -11,7 +11,16 @@ export function Footer() {
     <footer className="relative overflow-hidden border-t border-foreground/10 bg-gradient-to-b from-transparent to-primary/[0.03]">
       <div className="mx-auto flex max-w-5xl flex-col gap-10 px-6 py-14 sm:flex-row sm:justify-between">
         <div className="flex flex-col gap-3">
-          <Image src="/luit-logo-navbar.png" alt="LUIT" width={1326} height={530} className="h-8 w-auto" />
+          {/* The full logo artwork (not the navbar's cropped-down
+              version) -- the footer has room for it, unlike the tight
+              nav bar. Same transparent-background treatment. */}
+          <Image
+            src="/luit-logo-full.png"
+            alt="LUIT — Project Luit"
+            width={1536}
+            height={1024}
+            className="w-56 sm:w-64"
+          />
           <p className="max-w-xs text-sm text-foreground/60">
             The digital home of Assam — modern technology with an Assamese soul.
           </p>

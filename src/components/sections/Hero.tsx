@@ -2,7 +2,6 @@
 
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/Button";
-import { HillsDivider } from "@/components/ui/HillsDivider";
 import { HeroBackground } from "@/components/sections/HeroBackground";
 
 /**
@@ -62,10 +61,6 @@ export function Hero() {
           <Button href="/explore">Explore Assam</Button>
         </motion.div>
       </motion.div>
-
-      <div className="relative mt-16 sm:mt-20">
-        <HillsDivider />
-      </div>
     </section>
   );
 }

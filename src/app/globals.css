@@ -56,22 +56,12 @@
   --font-script: var(--font-caveat);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0d1420;
-    --foreground: #eef2f6;
-
-    /* Slightly lifted brand tones so they keep enough contrast against
-       a dark background instead of reading as muddy. */
-    --color-brand-blue: #4f8fd1;
-    --color-brand-green: #4f9c6c;
-    --color-brand-red: #d1585e;
-    --color-brand-gold: #d4a017;
-
-    --primary: #4d9fef;
-    --secondary: #2dd4c8;
-  }
-}
+/* Deliberately no `@media (prefers-color-scheme: dark)` override.
+   The homepage redesign spec calls for one specific dominant look
+   (Dodger Blue / turquoise / off-white) -- letting a visitor's OS dark
+   mode silently swap that out for a dark navy theme undermines the
+   whole point of a deliberate brand palette, so LUIT always renders
+   the light theme regardless of system preference. */
 
 body {
   background: var(--background);

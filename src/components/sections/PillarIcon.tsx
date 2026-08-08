@@ -11,43 +11,49 @@ import {
 import type { BrandAccent } from "@/lib/brand-accent";
 
 /**
- * Simple line-art motifs, one per pillar, matching the visual concepts
- * in the design spec (river / tree / dhol / sun) -- see the module
- * comment on PillarIcon below for why these are hand-drawn SVG rather
- * than pre-rendered 3D art.
+ * Simple line-art motifs, one per pillar -- specific, named cultural
+ * references the user asked for by name (not generic icon-set
+ * substitutes), matching each pillar's brand accent color. See the
+ * module comment on PillarIcon below for why these are hand-drawn SVG
+ * rather than pre-rendered 3D art.
  */
 const motifs: Record<BrandAccent, React.ReactNode> = {
   "brand-blue": (
-    // Culture -- the Brahmaputra: three flowing river lines.
+    // Culture -- a Gamusa: the woven cotton scarf with a patterned
+    // border and fringed ends, one of Assam's most recognizable
+    // cultural symbols.
+    <>
+      <rect x="10" y="4" width="12" height="22" rx="0.5" />
+      <path d="M10 9.5h12M10 20.5h12" />
+      <path d="M12.5 6.5h1M15.5 6.5h1M18.5 6.5h1M12.5 23h1M15.5 23h1M18.5 23h1" />
+      <path d="M12 26v3M15 26v3.5M18 26v3M21 26v3.5" />
+    </>
+  ),
+  "brand-green": (
+    // People -- a Bihu dancing couple, arms raised mid-dance.
+    <>
+      <circle cx="11.5" cy="7.5" r="2.3" />
+      <path d="M11.5 10v7.5M11.5 12.5l-4-2.5M11.5 12.5l3 1.5M11.5 17.5l-3 5M11.5 17.5l3.5 4.5" />
+      <circle cx="20.5" cy="7.5" r="2.3" />
+      <path d="M20.5 10v7.5M20.5 12.5l4-2.5M20.5 12.5l-3 1.5M20.5 17.5l3 5M20.5 17.5l-3.5 4.5" />
+    </>
+  ),
+  "brand-red": (
+    // Opportunities -- the Brahmaputra: three flowing river lines.
     <>
       <path d="M4 10c3-2.5 5-2.5 8 0s5 2.5 8 0" />
       <path d="M4 16c3-2.5 5-2.5 8 0s5 2.5 8 0" />
       <path d="M4 22c3-2.5 5-2.5 8 0s5 2.5 8 0" />
     </>
   ),
-  "brand-green": (
-    // People -- a tree: trunk + organic canopy, standing for
-    // community and growth.
-    <>
-      <path d="M16 28V17" />
-      <path d="M16 17c-5 0-8-3.5-8-8 1.5 1 3.5 1 5-.5C14 6 15 4 16 4s2 2 3 4.5c1.5 1.5 3.5 1.5 5 .5 0 4.5-3 8-8 8Z" />
-    </>
-  ),
-  "brand-red": (
-    // Opportunities -- a dhol: the barrel-shaped drum, played at every
-    // Bihu, standing for creative and civic energy.
-    <>
-      <ellipse cx="16" cy="9" rx="7" ry="3" />
-      <ellipse cx="16" cy="23" rx="7" ry="3" />
-      <path d="M9 9v14M23 9v14" />
-      <path d="M11 12l2 2M21 12l-2 2M11 20l2-2M21 20l-2-2" />
-    </>
-  ),
   "brand-gold": (
-    // Future -- a sunrise.
+    // Future -- a tea garden: rows of bushes on a hillside with a
+    // young sprout above them.
     <>
-      <circle cx="16" cy="19" r="6" />
-      <path d="M16 4v4M16 4l-2.5 3M16 4l2.5 3M4 19h4M28 19h-4M7 10l2.8 2.8M25 10l-2.8 2.8" />
+      <path d="M3 22c2.5-3 4.5-3 7 0s4.5 3 7 0 4.5-3 7 0 4.5 3 7 0" />
+      <path d="M3 26.5c2.5-3 4.5-3 7 0s4.5 3 7 0 4.5-3 7 0 4.5 3 7 0" />
+      <path d="M16 18v-6" />
+      <path d="M16 14c-2-1-3 0-3 2M16 12c2-1 3 0 3 2" />
     </>
   ),
 };
