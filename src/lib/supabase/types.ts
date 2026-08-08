@@ -256,3 +256,21 @@ export interface Report {
 export interface ReportWithReporter extends Report {
   profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
 }
+
+/**
+ * Shape of a row in the `notifications` table (see
+ * supabase/migrations/0015_notifications.sql). `message` and
+ * `content_href` are pre-rendered at insert time by
+ * src/lib/notifications.ts, so reading this table never needs to join
+ * `profiles` to display something meaningful.
+ */
+export interface Notification {
+  id: string;
+  recipient_id: string;
+  actor_id: string | null;
+  type: "post_like" | "post_comment" | "content_removed";
+  message: string;
+  content_href: string;
+  read_at: string | null;
+  created_at: string;
+}

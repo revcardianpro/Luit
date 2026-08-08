@@ -12,6 +12,7 @@ interface MobileMenuProps {
    * itself — it only has whatever props it's given. */
   isSignedIn: boolean;
   isAdmin: boolean;
+  unreadCount: number;
 }
 
 /**
@@ -23,7 +24,7 @@ interface MobileMenuProps {
  * component's JS to the client, unlike the Server Components elsewhere
  * on the page.
  */
-export function MobileMenu({ isSignedIn, isAdmin }: MobileMenuProps) {
+export function MobileMenu({ isSignedIn, isAdmin, unreadCount }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -84,6 +85,13 @@ export function MobileMenu({ isSignedIn, isAdmin }: MobileMenuProps) {
             </Link>
             {isSignedIn ? (
               <>
+                <Link
+                  href="/notifications"
+                  onClick={() => setOpen(false)}
+                  className="text-sm font-medium text-foreground/70"
+                >
+                  Notifications{unreadCount > 0 ? ` (${unreadCount > 9 ? "9+" : unreadCount})` : ""}
+                </Link>
                 {isAdmin && (
                   <Link
                     href="/admin"

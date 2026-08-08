@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient, getCurrentUser } from "@/lib/supabase/server";
 import { redirectWithError } from "@/lib/redirect-with-error";
+import { actorDisplayName, createNotification } from "@/lib/notifications";
 
 // Like/comment actions deliberately don't redirect() -- they stay on
 // the same page. Next.js automatically refreshes the current route's
@@ -34,6 +35,23 @@ export async function toggleLike(formData: FormData) {
       .eq("user_id", user.id);
   } else {
     await supabase.from("creator_post_likes").insert({ post_id: postId, user_id: user.id });
+
+    // Only the like adds a notification -- unliking shouldn't notify
+    // anyone of anything.
+    const [{ data: post }, { data: actorProfile }] = await Promise.all([
+      supabase.from("creator_posts").select("title, creator_id").eq("id", postId).maybeSingle(),
+      supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle(),
+    ]);
+
+    if (post) {
+      await createNotification(supabase, {
+        recipientId: post.creator_id,
+        actorId: user.id,
+        type: "post_like",
+        message: `${actorDisplayName(actorProfile?.full_name ?? null)} liked your post "${post.title}"`,
+        contentHref: `/community/${postId}`,
+      });
+    }
   }
 
   revalidatePath(`/community/${postId}`);
@@ -59,6 +77,21 @@ export async function addComment(formData: FormData) {
 
   if (error) {
     redirectWithError(`/community/${postId}`, error.message);
+  }
+
+  const [{ data: post }, { data: actorProfile }] = await Promise.all([
+    supabase.from("creator_posts").select("title, creator_id").eq("id", postId).maybeSingle(),
+    supabase.from("profiles").select("full_name").eq("id", user.id).maybeSingle(),
+  ]);
+
+  if (post) {
+    await createNotification(supabase, {
+      recipientId: post.creator_id,
+      actorId: user.id,
+      type: "post_comment",
+      message: `${actorDisplayName(actorProfile?.full_name ?? null)} commented on your post "${post.title}"`,
+      contentHref: `/community/${postId}`,
+    });
   }
 
   revalidatePath(`/community/${postId}`);

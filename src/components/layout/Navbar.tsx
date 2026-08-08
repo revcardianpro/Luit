@@ -24,17 +24,22 @@ import { signOut } from "@/lib/supabase/actions";
 export async function Navbar() {
   const user = await getCurrentUser();
 
-  // Only signed-in users can possibly be admins, so skip the extra
-  // query entirely for signed-out visitors.
+  // Only signed-in users can possibly be admins or have notifications,
+  // so skip both extra queries entirely for signed-out visitors.
   let isAdmin = false;
+  let unreadCount = 0;
   if (user) {
     const supabase = await createClient();
-    const { data: profile } = await supabase
-      .from("profiles")
-      .select("is_admin")
-      .eq("id", user.id)
-      .single();
+    const [{ data: profile }, { count }] = await Promise.all([
+      supabase.from("profiles").select("is_admin").eq("id", user.id).single(),
+      supabase
+        .from("notifications")
+        .select("*", { count: "exact", head: true })
+        .eq("recipient_id", user.id)
+        .is("read_at", null),
+    ]);
     isAdmin = profile?.is_admin ?? false;
+    unreadCount = count ?? 0;
   }
 
   return (
@@ -84,6 +89,26 @@ export async function Navbar() {
           </Link>
           {user ? (
             <div className="flex items-center gap-3">
+              <Link href="/notifications" aria-label="Notifications" className="relative text-foreground/70 hover:text-foreground">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={1.5}
+                  className="h-5 w-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M14.857 17.082a23.85 23.85 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+                  />
+                </svg>
+                {unreadCount > 0 && (
+                  <span className="absolute -right-1.5 -top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[10px] font-semibold leading-none text-primary-foreground">
+                    {unreadCount > 9 ? "9+" : unreadCount}
+                  </span>
+                )}
+              </Link>
               {isAdmin && (
                 <Link
                   href="/admin"
@@ -111,7 +136,7 @@ export async function Navbar() {
           )}
         </nav>
 
-        <MobileMenu isSignedIn={!!user} isAdmin={isAdmin} />
+        <MobileMenu isSignedIn={!!user} isAdmin={isAdmin} unreadCount={unreadCount} />
       </div>
     </header>
   );
