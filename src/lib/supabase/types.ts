@@ -11,6 +11,7 @@ export interface Profile {
   full_name: string | null;
   bio: string | null;
   avatar_url: string | null;
+  is_admin: boolean;
   created_at: string;
   updated_at: string;
 }

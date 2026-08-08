@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { navLinks } from "@/lib/navigation";
-import { getCurrentUser } from "@/lib/supabase/server";
+import { createClient, getCurrentUser } from "@/lib/supabase/server";
 import { signOut } from "@/lib/supabase/actions";
 
 /**
@@ -22,6 +22,19 @@ import { signOut } from "@/lib/supabase/actions";
  */
 export async function Navbar() {
   const user = await getCurrentUser();
+
+  // Only signed-in users can possibly be admins, so skip the extra
+  // query entirely for signed-out visitors.
+  let isAdmin = false;
+  if (user) {
+    const supabase = await createClient();
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("is_admin")
+      .eq("id", user.id)
+      .single();
+    isAdmin = profile?.is_admin ?? false;
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur">
@@ -58,6 +71,14 @@ export async function Navbar() {
           </Link>
           {user ? (
             <div className="flex items-center gap-3">
+              {isAdmin && (
+                <Link
+                  href="/admin"
+                  className="text-sm font-medium text-foreground/70 hover:text-foreground"
+                >
+                  Admin
+                </Link>
+              )}
               <Link
                 href="/account"
                 className="text-sm font-medium text-foreground/70 hover:text-foreground"
@@ -77,7 +98,7 @@ export async function Navbar() {
           )}
         </nav>
 
-        <MobileMenu isSignedIn={!!user} />
+        <MobileMenu isSignedIn={!!user} isAdmin={isAdmin} />
       </div>
     </header>
   );

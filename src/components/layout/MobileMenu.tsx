@@ -11,6 +11,7 @@ interface MobileMenuProps {
    * signed-in user) since this Client Component can't query Supabase
    * itself — it only has whatever props it's given. */
   isSignedIn: boolean;
+  isAdmin: boolean;
 }
 
 /**
@@ -22,7 +23,7 @@ interface MobileMenuProps {
  * component's JS to the client, unlike the Server Components elsewhere
  * on the page.
  */
-export function MobileMenu({ isSignedIn }: MobileMenuProps) {
+export function MobileMenu({ isSignedIn, isAdmin }: MobileMenuProps) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -83,6 +84,15 @@ export function MobileMenu({ isSignedIn }: MobileMenuProps) {
             </Link>
             {isSignedIn ? (
               <>
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    onClick={() => setOpen(false)}
+                    className="text-sm font-medium text-foreground/70"
+                  >
+                    Admin
+                  </Link>
+                )}
                 <Link
                   href="/account"
                   onClick={() => setOpen(false)}

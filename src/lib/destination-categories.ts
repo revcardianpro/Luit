@@ -1,6 +1,13 @@
 import type { BrandAccent } from "@/lib/brand-accent";
 
-export type DestinationCategory = "national_park" | "island" | "temple" | "historical_site";
+export const destinationCategories = [
+  "national_park",
+  "island",
+  "temple",
+  "historical_site",
+] as const;
+
+export type DestinationCategory = (typeof destinationCategories)[number];
 
 interface CategoryMeta {
   label: string;
