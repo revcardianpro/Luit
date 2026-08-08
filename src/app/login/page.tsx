@@ -32,6 +32,12 @@ export default async function LoginPage(props: PageProps<"/login">) {
           <Button type="submit">Sign In</Button>
         </form>
 
+        <p className="mt-4 text-sm text-foreground/60">
+          <Link href="/forgot-password" className="font-medium text-primary">
+            Forgot your password?
+          </Link>
+        </p>
+
         <p className="mt-6 text-sm text-foreground/60">
           Don&rsquo;t have an account?{" "}
           <Link href="/signup" className="font-medium text-primary">
