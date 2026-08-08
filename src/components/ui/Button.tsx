@@ -62,7 +62,7 @@ export function Button({
   children,
   ...rest
 }: ButtonProps) {
-  const className = `inline-flex items-center justify-center rounded-full font-medium transition-colors ${variantStyles[variant]} ${sizeStyles[size]} ${
+  const className = `inline-flex shrink-0 items-center justify-center rounded-full font-medium whitespace-nowrap transition-colors ${variantStyles[variant]} ${sizeStyles[size]} ${
     disabled ? "cursor-not-allowed opacity-50" : ""
   }`;
 

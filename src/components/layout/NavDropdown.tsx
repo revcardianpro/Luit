@@ -36,7 +36,7 @@ export function NavDropdown({ label, links }: { label: string; links: NavLink[] 
         type="button"
         onClick={() => setOpen((o) => !o)}
         aria-expanded={open}
-        className="flex items-center gap-1 text-sm font-medium text-foreground/70 hover:text-foreground"
+        className="flex items-center gap-1 text-sm font-medium whitespace-nowrap text-foreground/70 hover:text-foreground"
       >
         {label}
         <svg

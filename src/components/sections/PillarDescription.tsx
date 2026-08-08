@@ -38,15 +38,11 @@ export function PillarDescription({
       <motion.h3
         animate={{ scale: isActive ? 1 : 0.97 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="font-serif text-2xl font-semibold tracking-tight text-white origin-left sm:text-3xl"
+        className="font-serif text-2xl font-semibold tracking-tight text-foreground origin-left sm:text-3xl"
       >
         {title}
       </motion.h3>
-      {/* Fixed white text, not the theme foreground tokens -- this now
-          lives in HeroPillars, over the same dark photo backdrop as
-          the rest of the Hero content (see Hero.tsx's own comment on
-          why that section uses a fixed white/gold palette). */}
-      <p className="max-w-md text-white/75">{description}</p>
+      <p className="max-w-md text-foreground/70">{description}</p>
       <Link
         href={href}
         className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium transition-colors"

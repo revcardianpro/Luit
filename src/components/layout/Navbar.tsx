@@ -62,14 +62,21 @@ export async function Navbar() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-6 sm:flex">
+        <nav className="hidden items-center gap-5 sm:flex">
           {/* Fixed order per the reference layout: Home, Explore Assam
               ▾, Opportunities ▾, then the rest of topLevelLinks
-              (Marketplace, Learning, Pride of Assam) -- hand-written
-              rather than looped with the two dropdowns spliced in,
-              since interleaving two different link shapes into one
-              array only obscures this one fixed sequence. */}
-          <Link href="/" className="text-sm font-medium text-foreground/70 hover:text-foreground">
+              (Marketplace, Learning, Pride of Assam, Pillars) --
+              hand-written rather than looped with the two dropdowns
+              spliced in, since interleaving two different link shapes
+              into one array only obscures this one fixed sequence.
+              whitespace-nowrap on every item -- there are enough items
+              now (7 links + 2 dropdowns) that a multi-word label like
+              "Pride of Assam" would otherwise wrap mid-label before
+              the row itself wraps. */}
+          <Link
+            href="/"
+            className="text-sm font-medium whitespace-nowrap text-foreground/70 hover:text-foreground"
+          >
             Home
           </Link>
           <NavDropdown label="Explore Assam" links={exploreLinks} />
@@ -78,7 +85,7 @@ export async function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-foreground/70 hover:text-foreground"
+              className="text-sm font-medium whitespace-nowrap text-foreground/70 hover:text-foreground"
             >
               {link.label}
             </Link>

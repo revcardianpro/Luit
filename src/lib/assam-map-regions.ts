@@ -1,16 +1,19 @@
 /**
  * Maps a `destinations.district` value (free text, e.g. "Golaghat &
- * Nagaon districts") to a labeled point on AssamMap's schematic
- * outline. `district` isn't a clean enum -- it's written for humans on
- * a destination's own page -- so matching is substring-based against
- * `matches`, not an exact-equality lookup.
+ * Nagaon districts") to a labeled point on AssamMap's background
+ * image (public/images/map/assam-district-map.png, a district map the
+ * user generated and provided directly). `district` isn't a clean
+ * enum -- it's written for humans on a destination's own page -- so
+ * matching is substring-based against `matches`, not an exact-
+ * equality lookup.
  *
- * `x`/`y` are coordinates in AssamMap's viewBox (0 0 640 380), placed
- * at each area's real *approximate relative* position (west-to-east
- * along the Brahmaputra valley, Manas up near the Bhutan border) --
- * this is a schematic map, not a survey-accurate one (see
- * AssamMap.tsx's own comment for why), so these are illustrative, not
- * GPS coordinates.
+ * `x`/`y` are percentages (0-100) of the map image's width/height,
+ * positioned by eye against each named district's label/headquarters
+ * dot in that image -- a best-effort visual match, not measured from
+ * exact source pixel coordinates, so treat these as approximate.
+ * Majuli isn't its own labeled district on this map (it's a river
+ * sub-division near Jorhat) -- placed just north of Jorhat, in the
+ * river bend, rather than exactly on a labeled point.
  *
  * A district with no match here simply gets no pin -- safe fallback,
  * and the natural place to add one line when a destination lands in a
@@ -25,11 +28,11 @@ export interface AssamMapRegion {
 }
 
 export const assamMapRegions: AssamMapRegion[] = [
-  { id: "manas", label: "Manas", x: 110, y: 140, matches: ["chirang", "baksa", "bongaigaon"] },
-  { id: "guwahati", label: "Guwahati", x: 190, y: 195, matches: ["kamrup"] },
-  { id: "kaziranga", label: "Kaziranga", x: 345, y: 175, matches: ["golaghat", "nagaon"] },
-  { id: "majuli", label: "Majuli", x: 415, y: 130, matches: ["majuli"] },
-  { id: "sivasagar", label: "Sivasagar", x: 520, y: 150, matches: ["sivasagar"] },
+  { id: "manas", label: "Manas", x: 21, y: 37, matches: ["chirang", "baksa", "bongaigaon"] },
+  { id: "guwahati", label: "Guwahati", x: 39, y: 54, matches: ["kamrup"] },
+  { id: "kaziranga", label: "Kaziranga", x: 60, y: 40, matches: ["golaghat", "nagaon"] },
+  { id: "majuli", label: "Majuli", x: 66, y: 28, matches: ["majuli"] },
+  { id: "sivasagar", label: "Sivasagar", x: 77, y: 32, matches: ["sivasagar"] },
 ];
 
 /** Finds the region a destination's `district` text belongs to, if any. */

@@ -18,6 +18,12 @@ export const topLevelLinks: NavLink[] = [
   { label: "Marketplace", href: "/marketplace" },
   { label: "Learning", href: "/learn" },
   { label: "Pride of Assam", href: "/pride" },
+  // Absolute path + hash, not just "#pillars" -- that section only
+  // exists on the homepage, so a bare hash would try to scroll
+  // *whatever page you're currently on* instead of navigating back.
+  // Valid again now that PillarJourney is its own homepage section
+  // (id="pillars") rather than merged into Hero.
+  { label: "Pillars", href: "/#pillars" },
 ];
 
 /** "Explore Assam ▾" dropdown contents. */
