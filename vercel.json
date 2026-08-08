@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/refresh-assam-events",
+      "schedule": "30 0 * * *"
+    }
+  ]
+}

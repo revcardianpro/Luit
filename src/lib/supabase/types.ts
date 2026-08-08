@@ -210,3 +210,23 @@ export interface Event {
 export interface EventWithOrganizer extends Event {
   profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
 }
+
+/**
+ * Shape of a row in the `assam_events_feed` table (see
+ * supabase/migrations/0011_assam_events_feed.sql). Machine-discovered,
+ * not user-generated -- see src/lib/assam-events-feed.ts for how rows
+ * get here. Read-only from the app's perspective.
+ */
+export interface AssamEventFeedItem {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  location: string | null;
+  date_text: string;
+  starts_at: string | null;
+  source_url: string;
+  source_name: string;
+  discovered_at: string;
+  created_at: string;
+}
