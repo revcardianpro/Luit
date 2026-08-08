@@ -26,8 +26,29 @@ const DISPLAY_SECONDS = 6;
  * triggering as the zoom itself for some users.
  */
 export function HeroBackground() {
+  // Starts at a fixed index (0) so server-rendered HTML and the
+  // client's first render agree -- picking randomly in useState's
+  // initializer would run independently on the server and the client
+  // and almost certainly disagree, causing a hydration mismatch. The
+  // effect below re-rolls it immediately after mount instead, which is
+  // client-only by definition and can't mismatch anything.
   const [index, setIndex] = useState(0);
   const shouldReduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    // "Subtly change whenever the site reloads" -- one random pick per
+    // real page load, applied right after mount (crossfades in via the
+    // same transition as the regular rotation below, not a hard cut).
+    // Deferred via setTimeout rather than called directly in the effect
+    // body: an immediate synchronous setState here would still be
+    // correct, but React's linter flags it as effect/render coupling
+    // that's easy to get wrong elsewhere, so this keeps the pattern
+    // consistent with what the rest of the codebase should follow.
+    const timeout = setTimeout(() => {
+      setIndex(Math.floor(Math.random() * images.length));
+    }, 0);
+    return () => clearTimeout(timeout);
+  }, []);
 
   useEffect(() => {
     if (shouldReduceMotion) return;
@@ -58,7 +79,13 @@ export function HeroBackground() {
               src={images[index]}
               alt=""
               fill
-              priority={index === 0}
+              // Always priority, not just index===0: AnimatePresence
+              // only ever mounts one of these at a time, so whichever
+              // is currently rendered *is* the LCP candidate -- now
+              // that the starting index is randomized (not always 0),
+              // hardcoding this to the first array entry left every
+              // other starting image loading without eager priority.
+              priority
               sizes="100vw"
               className="object-cover"
             />

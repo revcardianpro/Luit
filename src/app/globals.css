@@ -1,33 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  /* Neutral surface + text. Pushed warmer/more saturated than a plain
-     off-white — closer to true cream/parchment (Phase 8 design
-     revision, following the bakinatajna.com reference: warm paper tone
-     rather than a neutral gray-white). */
-  --background: #f5ecd9;
-  --foreground: #1c1917;
+  /* Neutral surface + text — homepage redesign spec (2026-08-08):
+     "Dodger Blue / Turquoise / off-white" as the dominant theme, deep
+     navy text rather than near-black. Off-white here is intentionally
+     warm-neutral (not stark white or the old cream/parchment tone) so
+     it still reads as premium paper rather than clinical white. */
+  --background: #f7f5ef;
+  --foreground: #0f1b2d;
 
-  /* LUIT brand palette. Each color maps to something concrete in the
-     brief, so the mapping is deliberate, not decorative:
-       blue  -> the Brahmaputra and Assam's rivers
-       green -> forests, tea gardens, fertile land
-       red   -> the Gamosa, a core symbol of Assamese pride
-       gold  -> Muga silk and prosperity
-     "White" from the brief is expressed as the neutral background above
-     rather than a separate swatch, since a literal white token would be
-     redundant with --background. */
+  /* LUIT's four pillar accent colors. Each maps to something concrete,
+     matching the official logo artwork (public/luit-logo.png) exactly:
+       blue  -> Culture (the Brahmaputra and Assam's rivers)
+       green -> People (community, growth, tea gardens)
+       red   -> Opportunities (the dhol, creative/civic energy)
+       gold  -> Future (sunrise, prosperity)
+     Deliberately reserved for the pillar icons and their interactive
+     states rather than used broadly — the dominant theme is the
+     primary/secondary blue-turquoise system below, not these four. */
   --color-brand-blue: #1d5b96;
   --color-brand-green: #2f7d4e;
   --color-brand-red: #b3272d;
   --color-brand-gold: #b8860b;
 
-  /* Semantic alias: "primary" is the one color used for interactive
-     elements (buttons, links). Blue was chosen over the others because
-     it's the most neutral/premium-reading of the four and won't clash
-     when red/green/gold appear nearby as accent colors. */
-  --primary: var(--color-brand-blue);
+  /* Primary/secondary: the actual dominant theme. Primary sits in the
+     "Dodger Blue" family (true dodgerblue #1e90ff is too light for
+     reliable white-on-color text contrast, so this is a deepened
+     variant of the same hue — verified 5.8:1 against white).
+     Secondary is a turquoise/cyan accent for gradients, glass tints,
+     and secondary UI, not for small body text on a plain background
+     (its contrast is intentionally lower — check before pairing with
+     text). */
+  --primary: #0b63c4;
   --primary-foreground: #ffffff;
+  --secondary: #0e8e8a;
+  --secondary-foreground: #ffffff;
 }
 
 @theme inline {
@@ -39,6 +46,8 @@
   --color-brand-gold: var(--color-brand-gold);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   /* Display serif (headings) and handwritten accent (used sparingly),
@@ -49,8 +58,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #14120f;
-    --foreground: #f2efe9;
+    --background: #0d1420;
+    --foreground: #eef2f6;
 
     /* Slightly lifted brand tones so they keep enough contrast against
        a dark background instead of reading as muddy. */
@@ -58,6 +67,9 @@
     --color-brand-green: #4f9c6c;
     --color-brand-red: #d1585e;
     --color-brand-gold: #d4a017;
+
+    --primary: #4d9fef;
+    --secondary: #2dd4c8;
   }
 }
 

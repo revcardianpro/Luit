@@ -36,10 +36,20 @@ export function Hero() {
           The Assamese name for the Brahmaputra
         </p>
 
-        <h1 className="mt-4 max-w-3xl font-serif text-4xl font-semibold tracking-tight text-white sm:text-6xl">
-          The Digital Home of Assam
+        {/* The primary hero statement (spec: "MODERNIZE. CONNECT.
+            PRESERVE." — the highest-priority visual element on the
+            page after the logo). Stacked rather than one line, so each
+            word carries its own weight instead of reading as a single
+            generic tagline. */}
+        <h1 className="mt-4 flex flex-col font-serif text-5xl leading-[1.05] font-semibold tracking-tight text-white sm:text-7xl">
+          <span>Modernize.</span>
+          <span>Connect.</span>
+          <span>Preserve.</span>
         </h1>
-        <p className="max-w-xl text-lg text-white/85 sm:text-xl">
+        <p className="mt-2 text-xs font-medium uppercase tracking-[0.3em] text-white/60">
+          Culture · People · Opportunities · Future
+        </p>
+        <p className="mt-2 max-w-xl text-lg text-white/85 sm:text-xl">
           LUIT blends modern opportunity with timeless culture — helping
           Assam&rsquo;s people embrace the future without losing their
           identity, and inviting the world to discover it.

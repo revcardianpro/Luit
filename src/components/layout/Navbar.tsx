@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { navLinks } from "@/lib/navigation";
@@ -39,8 +40,20 @@ export async function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-foreground/10 bg-background/80 backdrop-blur">
       <div className="relative mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
-        <Link href="/" className="font-serif text-xl font-semibold tracking-tight">
-          LUIT
+        <Link href="/" className="shrink-0" aria-label="LUIT home">
+          {/* Cropped from the official logo (public/luit-logo.png) --
+              just the illustrated "LUIT" wordmark, background keyed to
+              transparent, since the full asset (which also carries a
+              "PROJECT" label and the four-pillar legend) is sized for
+              poster use, not a compact nav slot. */}
+          <Image
+            src="/luit-logo-navbar.png"
+            alt="LUIT"
+            width={1326}
+            height={530}
+            priority
+            className="h-9 w-auto"
+          />
         </Link>
 
         <nav className="hidden items-center gap-6 sm:flex">
