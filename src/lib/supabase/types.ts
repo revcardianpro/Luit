@@ -185,3 +185,28 @@ export interface CreatorPostComment {
   created_at: string;
   profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
 }
+
+/**
+ * Shape of a row in the `events` table (see
+ * supabase/migrations/0010_events.sql). User-generated, like Job/
+ * CreatorPost. Directory only, no in-app RSVP tracking.
+ */
+export interface Event {
+  id: string;
+  organizer_id: string;
+  title: string;
+  description: string;
+  category: string;
+  location: string | null;
+  starts_at: string;
+  ends_at: string | null;
+  image_path: string | null;
+  external_link: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** Event with its organizer's public profile fields joined in. */
+export interface EventWithOrganizer extends Event {
+  profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
+}
