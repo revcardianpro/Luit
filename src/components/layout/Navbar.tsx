@@ -2,7 +2,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { MobileMenu } from "@/components/layout/MobileMenu";
-import { navLinks } from "@/lib/navigation";
+import { NavDropdown } from "@/components/layout/NavDropdown";
+import { topLevelLinks, exploreLinks, opportunityLinks } from "@/lib/navigation";
 import { createClient, getCurrentUser } from "@/lib/supabase/server";
 import { signOut } from "@/lib/supabase/actions";
 
@@ -62,7 +63,18 @@ export async function Navbar() {
         </Link>
 
         <nav className="hidden items-center gap-6 sm:flex">
-          {navLinks.map((link) => (
+          {/* Fixed order per the reference layout: Home, Explore Assam
+              ▾, Opportunities ▾, then the rest of topLevelLinks
+              (Marketplace, Learning, Pride of Assam) -- hand-written
+              rather than looped with the two dropdowns spliced in,
+              since interleaving two different link shapes into one
+              array only obscures this one fixed sequence. */}
+          <Link href="/" className="text-sm font-medium text-foreground/70 hover:text-foreground">
+            Home
+          </Link>
+          <NavDropdown label="Explore Assam" links={exploreLinks} />
+          <NavDropdown label="Opportunities" links={opportunityLinks} />
+          {topLevelLinks.slice(1).map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -130,9 +142,14 @@ export async function Navbar() {
               </form>
             </div>
           ) : (
-            <Button href="/login" size="sm">
-              Sign In
-            </Button>
+            <div className="flex items-center gap-3">
+              <Button href="/login" variant="outline" size="sm">
+                Sign In
+              </Button>
+              <Button href="/signup" size="sm">
+                Join LUIT
+              </Button>
+            </div>
           )}
         </nav>
 

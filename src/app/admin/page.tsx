@@ -61,6 +61,18 @@ export default async function AdminPage() {
         </span>
       </Link>
 
+      <Link
+        href="/admin/settings"
+        className="mt-4 flex items-center justify-between rounded-2xl border border-foreground/10 p-6 transition-colors hover:border-foreground/20"
+      >
+        <div>
+          <h2 className="font-serif text-lg font-semibold">Site Settings</h2>
+          <p className="text-sm text-foreground/60">
+            Homepage &ldquo;Watch Our Story&rdquo; video and footer social links.
+          </p>
+        </div>
+      </Link>
+
       <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {SECTIONS.map((section, i) => (
           <Link

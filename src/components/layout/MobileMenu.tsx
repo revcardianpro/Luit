@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { navLinks } from "@/lib/navigation";
+import { topLevelLinks, exploreLinks, opportunityLinks } from "@/lib/navigation";
 import { signOut } from "@/lib/supabase/actions";
 
 interface MobileMenuProps {
@@ -66,7 +66,10 @@ export function MobileMenu({ isSignedIn, isAdmin, unreadCount }: MobileMenuProps
       {open && (
         <div className="absolute inset-x-0 top-full border-b border-foreground/10 bg-background px-6 py-4">
           <div className="flex flex-col gap-4">
-            {navLinks.map((link) => (
+            {/* Flattened rather than nested dropdowns -- a mobile menu
+                is already a full-screen list, so the desktop nav's two
+                dropdowns just become two more labeled groups here. */}
+            {topLevelLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -76,6 +79,36 @@ export function MobileMenu({ isSignedIn, isAdmin, unreadCount }: MobileMenuProps
                 {link.label}
               </Link>
             ))}
+            <div className="flex flex-col gap-2 border-t border-foreground/10 pt-4">
+              <span className="text-xs font-semibold tracking-[0.15em] text-foreground/40 uppercase">
+                Explore Assam
+              </span>
+              {exploreLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="text-sm font-medium text-foreground/70"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+            <div className="flex flex-col gap-2 border-t border-foreground/10 pt-4">
+              <span className="text-xs font-semibold tracking-[0.15em] text-foreground/40 uppercase">
+                Opportunities
+              </span>
+              {opportunityLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="text-sm font-medium text-foreground/70"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
             <Link
               href="/search"
               onClick={() => setOpen(false)}
@@ -115,9 +148,14 @@ export function MobileMenu({ isSignedIn, isAdmin, unreadCount }: MobileMenuProps
                 </form>
               </>
             ) : (
-              <Button href="/login" size="sm">
-                Sign In
-              </Button>
+              <div className="flex gap-3">
+                <Button href="/login" variant="outline" size="sm">
+                  Sign In
+                </Button>
+                <Button href="/signup" size="sm">
+                  Join LUIT
+                </Button>
+              </div>
             )}
           </div>
         </div>

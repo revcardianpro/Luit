@@ -16,17 +16,22 @@ const nextConfig: NextConfig = {
   },
   images: {
     // Lets next/image optimize images served from Supabase Storage
-    // (avatars, listing photos) -- without this, next/image refuses to
-    // render any external host it doesn't explicitly recognize.
-    remotePatterns: supabaseHostname
-      ? [
-          {
-            protocol: "https",
-            hostname: supabaseHostname,
-            pathname: "/storage/v1/object/public/**",
-          },
-        ]
-      : [],
+    // (avatars, listing photos) and from YouTube's unauthenticated
+    // thumbnail endpoint (StoryVideo.tsx's preview for the admin-
+    // configured homepage video) -- without this, next/image refuses
+    // to render any external host it doesn't explicitly recognize.
+    remotePatterns: [
+      ...(supabaseHostname
+        ? [
+            {
+              protocol: "https" as const,
+              hostname: supabaseHostname,
+              pathname: "/storage/v1/object/public/**",
+            },
+          ]
+        : []),
+      { protocol: "https" as const, hostname: "img.youtube.com", pathname: "/vi/**" },
+    ],
   },
 };
 

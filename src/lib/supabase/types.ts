@@ -274,3 +274,20 @@ export interface Notification {
   read_at: string | null;
   created_at: string;
 }
+
+/**
+ * Shape of the single row in the `site_settings` table (see
+ * supabase/migrations/0016_site_settings.sql) -- a singleton, not a
+ * list, so there's no `id`-keyed lookup anywhere that reads this; every
+ * field is optional since nothing here is required for the site to
+ * function (see src/lib/site-settings.ts).
+ */
+export interface SiteSettings {
+  id: string;
+  story_video_url: string | null;
+  facebook_url: string | null;
+  instagram_url: string | null;
+  twitter_url: string | null;
+  youtube_url: string | null;
+  updated_at: string;
+}
