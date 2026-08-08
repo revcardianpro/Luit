@@ -5,17 +5,19 @@ import Image from "next/image";
 import { AnimatePresence, motion } from "motion/react";
 
 /**
- * The Hero's "Watch Our Story" video. Renders nothing when there's no
- * `embedUrl` (i.e. the admin hasn't configured one yet via
- * /admin/settings) -- a safe empty state so nothing broken shows to
- * visitors before then, same rule the rest of this redesign follows
- * for admin-controlled content.
+ * The homepage's "Watch Our Story" video (its own section, between
+ * CommunitySection and ClosingCta -- see StoryVideoSection.tsx).
+ * Renders nothing when there's no `embedUrl` (i.e. the admin hasn't
+ * configured one yet via /admin/settings) -- a safe empty state so
+ * nothing broken shows to visitors before then, same rule the rest of
+ * this redesign follows for admin-controlled content.
  *
- * Two states: a compact 16:9 box inline in the Hero (per the user's
- * own spec: "a smaller box with provision for full screen"), and a
- * fullscreen lightbox opened on click with the actual embedded
- * player. `embedUrl`/`thumbnailUrl` are resolved server-side by the
- * caller (src/lib/video-embed.ts) -- this component only renders.
+ * Two states: a 16:9 box at whatever width its container gives it
+ * (sized by StoryVideoSection's wrapper, not hardcoded here -- this
+ * component doesn't assume where it's placed), and a fullscreen
+ * lightbox opened on click with the actual embedded player.
+ * `embedUrl`/`thumbnailUrl` are resolved server-side by the caller
+ * (src/lib/video-embed.ts) -- this component only renders.
  */
 export function StoryVideo({
   embedUrl,
@@ -35,14 +37,14 @@ export function StoryVideo({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="group relative aspect-video w-full max-w-xs overflow-hidden rounded-xl border border-white/20 bg-black/40 shadow-lg"
+        className="group relative aspect-video w-full overflow-hidden rounded-xl border border-white/20 bg-black/40 shadow-lg"
       >
         {thumbnailUrl ? (
           <Image
             src={thumbnailUrl}
             alt=""
             fill
-            sizes="320px"
+            sizes="(min-width: 768px) 768px, 100vw"
             className="object-cover opacity-80 transition-opacity group-hover:opacity-100"
           />
         ) : (

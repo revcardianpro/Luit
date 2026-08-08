@@ -3,15 +3,6 @@
 import { motion } from "motion/react";
 import { Button } from "@/components/ui/Button";
 import { HeroBackground } from "@/components/sections/HeroBackground";
-import { StoryVideo } from "@/components/sections/StoryVideo";
-
-interface HeroProps {
-  /** Resolved server-side (src/lib/video-embed.ts) by HeroSection.tsx
-   * from site_settings.story_video_url -- null when the admin hasn't
-   * configured one yet, in which case StoryVideo renders nothing. */
-  storyVideoEmbedUrl: string | null;
-  storyVideoThumbnailUrl: string | null;
-}
 
 /**
  * A Client Component ("use client") — unlike the other landing
@@ -31,9 +22,13 @@ interface HeroProps {
  * Stands alone (no pillars sharing this section) per the user's own
  * correction after the homepage redesign v2 pass first merged this
  * with PillarJourney into one two-column section -- PillarJourney is
- * its own section again, directly below this one.
+ * its own section again, directly below this one. The "Watch Our
+ * Story" video also moved out of here into its own section further
+ * down the page (see StoryVideoSection.tsx) at the user's request for
+ * a larger, more prominent placement than fit well inline in the
+ * Hero.
  */
-export function Hero({ storyVideoEmbedUrl, storyVideoThumbnailUrl }: HeroProps) {
+export function Hero() {
   return (
     <section className="relative overflow-hidden px-6 pt-24 pb-16 text-center sm:pt-32 sm:pb-20">
       <HeroBackground />
@@ -59,17 +54,13 @@ export function Hero({ storyVideoEmbedUrl, storyVideoThumbnailUrl }: HeroProps) 
           Assam&rsquo;s people embrace the future without losing their
           identity, and inviting the world to discover it.
         </p>
-
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-4">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
-            <Button href="/explore">Explore Assam</Button>
-          </motion.div>
-          {storyVideoEmbedUrl && (
-            <div className="w-40 sm:w-48">
-              <StoryVideo embedUrl={storyVideoEmbedUrl} thumbnailUrl={storyVideoThumbnailUrl} />
-            </div>
-          )}
-        </div>
+        <motion.div
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.97 }}
+          className="mt-2 inline-block"
+        >
+          <Button href="/explore">Explore Assam</Button>
+        </motion.div>
       </motion.div>
     </section>
   );
