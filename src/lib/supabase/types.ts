@@ -231,3 +231,28 @@ export interface AssamEventFeedItem {
   discovered_at: string;
   created_at: string;
 }
+
+/**
+ * Shape of a row in the `reports` table (see
+ * supabase/migrations/0014_moderation.sql). One shared table for all
+ * five reportable content types -- content_type + content_id identify
+ * the reported row, resolved at read time by
+ * src/lib/admin-content-lookup.ts rather than a foreign key (which
+ * can't point at five different tables at once).
+ */
+export interface Report {
+  id: string;
+  reporter_id: string;
+  content_type: string;
+  content_id: string;
+  reason: string;
+  status: "pending" | "resolved" | "dismissed";
+  created_at: string;
+  resolved_at: string | null;
+  resolved_by: string | null;
+}
+
+/** Report with the reporter's public profile fields joined in. */
+export interface ReportWithReporter extends Report {
+  profiles: Pick<Profile, "full_name" | "avatar_url"> | null;
+}

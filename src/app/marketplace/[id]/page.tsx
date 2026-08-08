@@ -7,6 +7,7 @@ import { getCategoryAccent } from "@/lib/marketplace-categories";
 import { accentBgClass } from "@/lib/brand-accent";
 import { formatPrice } from "@/lib/format-price";
 import { Button } from "@/components/ui/Button";
+import { ReportButton } from "@/components/moderation/ReportButton";
 import { DeleteListingButton } from "./DeleteListingButton";
 
 export default async function ProductPage(props: PageProps<"/marketplace/[id]">) {
@@ -89,13 +90,19 @@ export default async function ProductPage(props: PageProps<"/marketplace/[id]">)
             </div>
           </div>
 
-          {isOwner && (
+          {isOwner ? (
             <div className="mt-6 flex gap-3">
               <Button href={`/marketplace/${product.id}/edit`} variant="outline" size="sm">
                 Edit listing
               </Button>
               <DeleteListingButton productId={product.id} />
             </div>
+          ) : (
+            user && (
+              <div className="mt-6">
+                <ReportButton contentType="product" contentId={product.id} />
+              </div>
+            )
           )}
         </div>
       </div>

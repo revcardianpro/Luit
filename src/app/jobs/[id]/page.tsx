@@ -5,6 +5,7 @@ import type { JobWithPoster } from "@/lib/supabase/types";
 import { getJobTypeAccent } from "@/lib/job-types";
 import { accentBgClass } from "@/lib/brand-accent";
 import { Button } from "@/components/ui/Button";
+import { ReportButton } from "@/components/moderation/ReportButton";
 import { DeleteJobButton } from "./DeleteJobButton";
 
 export default async function JobPage(props: PageProps<"/jobs/[id]">) {
@@ -73,13 +74,19 @@ export default async function JobPage(props: PageProps<"/jobs/[id]">) {
         </div>
       </div>
 
-      {isOwner && (
+      {isOwner ? (
         <div className="mt-6 flex gap-3">
           <Button href={`/jobs/${job.id}/edit`} variant="outline" size="sm">
             Edit listing
           </Button>
           <DeleteJobButton jobId={job.id} />
         </div>
+      ) : (
+        user && (
+          <div className="mt-6">
+            <ReportButton contentType="job" contentId={job.id} />
+          </div>
+        )
       )}
     </main>
   );

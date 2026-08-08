@@ -8,6 +8,7 @@ import { getCreatorCategoryAccent } from "@/lib/creator-categories";
 import { accentBgClass } from "@/lib/brand-accent";
 import { Button } from "@/components/ui/Button";
 import { Avatar } from "@/components/ui/Avatar";
+import { ReportButton } from "@/components/moderation/ReportButton";
 import { toggleLike, addComment } from "./actions";
 import { ShareButton } from "./ShareButton";
 import { DeletePostButton } from "./DeletePostButton";
@@ -112,13 +113,15 @@ export default async function PostPage(props: PageProps<"/community/[id]">) {
           </Button>
         </form>
         <ShareButton url={postUrl} title={post.title} />
-        {isOwner && (
+        {isOwner ? (
           <>
             <Button href={`/community/${post.id}/edit`} variant="outline" size="sm">
               Edit
             </Button>
             <DeletePostButton postId={post.id} />
           </>
+        ) : (
+          user && <ReportButton contentType="creator_post" contentId={post.id} />
         )}
       </div>
 
@@ -164,9 +167,11 @@ export default async function PostPage(props: PageProps<"/community/[id]">) {
                     {comment.profiles?.full_name || "A LUIT member"}
                   </p>
                   {user &&
-                    (user.id === comment.author_id || user.id === post.creator_id) && (
+                    (user.id === comment.author_id || user.id === post.creator_id ? (
                       <DeleteCommentButton commentId={comment.id} postId={post.id} />
-                    )}
+                    ) : (
+                      <ReportButton contentType="creator_post_comment" contentId={comment.id} />
+                    ))}
                 </div>
                 <p className="text-sm text-foreground/70">{comment.body}</p>
               </div>

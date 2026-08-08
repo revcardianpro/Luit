@@ -7,6 +7,7 @@ import { getEventCategoryAccent } from "@/lib/event-categories";
 import { accentBgClass } from "@/lib/brand-accent";
 import { formatEventDateTime } from "@/lib/format-event-date";
 import { Button } from "@/components/ui/Button";
+import { ReportButton } from "@/components/moderation/ReportButton";
 import { DeleteEventButton } from "./DeleteEventButton";
 
 export default async function EventPage(props: PageProps<"/events/[id]">) {
@@ -79,13 +80,19 @@ export default async function EventPage(props: PageProps<"/events/[id]">) {
         </div>
       )}
 
-      {isOwner && (
+      {isOwner ? (
         <div className="mt-6 flex gap-3">
           <Button href={`/events/${event.id}/edit`} variant="outline" size="sm">
             Edit event
           </Button>
           <DeleteEventButton eventId={event.id} />
         </div>
+      ) : (
+        user && (
+          <div className="mt-6">
+            <ReportButton contentType="event" contentId={event.id} />
+          </div>
+        )
       )}
     </main>
   );

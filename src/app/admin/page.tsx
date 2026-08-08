@@ -33,11 +33,10 @@ export default async function AdminPage() {
   await requireAdmin();
   const supabase = await createClient();
 
-  const counts = await Promise.all(
-    SECTIONS.map((section) =>
-      supabase.from(section.table).select("*", { count: "exact", head: true }),
-    ),
-  );
+  const [counts, { count: pendingReports }] = await Promise.all([
+    Promise.all(SECTIONS.map((section) => supabase.from(section.table).select("*", { count: "exact", head: true }))),
+    supabase.from("reports").select("*", { count: "exact", head: true }).eq("status", "pending"),
+  ]);
 
   return (
     <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-16">
@@ -49,7 +48,20 @@ export default async function AdminPage() {
         via a database migration.
       </p>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2">
+      <Link
+        href="/admin/reports"
+        className="mt-8 flex items-center justify-between rounded-2xl border border-foreground/10 bg-brand-red/5 p-6 transition-colors hover:border-brand-red/30"
+      >
+        <div>
+          <h2 className="font-serif text-lg font-semibold">Moderation Queue</h2>
+          <p className="text-sm text-foreground/60">Reports on user-generated content.</p>
+        </div>
+        <span className="rounded-full bg-brand-red px-3 py-1 text-sm font-semibold text-white">
+          {pendingReports ?? 0} pending
+        </span>
+      </Link>
+
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
         {SECTIONS.map((section, i) => (
           <Link
             key={section.href}
