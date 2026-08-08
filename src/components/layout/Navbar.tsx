@@ -40,6 +40,22 @@ export async function Navbar() {
               {link.label}
             </Link>
           ))}
+          <Link
+            href="/search"
+            aria-label="Search"
+            className="text-foreground/70 hover:text-foreground"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.5}
+              className="h-5 w-5"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path strokeLinecap="round" d="m20 20-3.5-3.5" />
+            </svg>
+          </Link>
           {user ? (
             <div className="flex items-center gap-3">
               <Link

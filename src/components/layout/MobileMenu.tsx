@@ -74,6 +74,13 @@ export function MobileMenu({ isSignedIn }: MobileMenuProps) {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/search"
+              onClick={() => setOpen(false)}
+              className="text-sm font-medium text-foreground/70"
+            >
+              Search
+            </Link>
             {isSignedIn ? (
               <>
                 <Link
